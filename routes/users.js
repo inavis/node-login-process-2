@@ -43,7 +43,8 @@ router.post("/signup", async (request, response) => {
                 sendResetLink(newuser.email,`
                 <h3>Account confirmation email</h3>
                 <div>To reset your password, Please click <a href=http://localhost:3000/confirmation/${newuser.email}>here</a></div>
-                `)
+                `);
+                response.send({message:"Kindly confirm the email.Kindly check in spam folder also"})
             }else{
                 response.status(404).send({message:"Password validation failed"})
             }
@@ -61,9 +62,14 @@ router.post("/confirm",async (request,response)=>{
     let user = request.body;
     let userfromdb= await getTempUserByEmail(user.email)
     console.log(user,userfromdb);
-    let result = await adduser(userfromdb);
-    await deleteTempUser(user.email)
-    result.send(result);
+    if(userfromdb){
+        let result = await adduser(userfromdb);
+        await deleteTempUser(user.email)
+        response.send(result);
+    }else{
+        response.send({message:"Some error occured. Try registering account again"})
+    }
+    
 })
 
 

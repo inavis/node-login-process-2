@@ -3,7 +3,7 @@
 import nodemailer from "nodemailer";
 
 export function sendResetLink(email,content){
-    console.log(email,token)
+    console.log(email,content)
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
