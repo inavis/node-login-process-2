@@ -73,48 +73,35 @@ router.post("/signup", async (request, response) => {
     
 });
 
-// router.post("/confirm",async (request,response)=>{
+router.post("/confirm",async (request,response)=>{
 
-//     console.log("/users/confirm")
+    console.log("/users/confirm")
 
-//     //getting sid from user url
-//     let user = request.body;
-//     let longurl = await getLongUrl(user.sid);
-
-//     //getting longurl from sid
-//     let email = longurl.split("confirmation/")[1];
-//     console.log("longurl",longurl)
-//     console.log("email",email);
-
-//     //checking if it is valid request
-//     let userfromdb= await getTempUserByEmail(email)
-//     console.log(user,userfromdb);
-//     if(userfromdb){
-//         //Once confirmed user added to users2 collection from tempUser
-//         let result = await adduser(userfromdb);
-//         //delete user from tempUser
-//         await deleteTempUser(email)
-//         response.send(result);
-//     }else{
-//         response.send({message:"Some error occured. Try registering account again"})
-//     }
-    
-// })
-
-router.post("/confirmation",async (request,response)=>{
-    
-    //getting sid from) user
+    //getting sid from user url
     let user = request.body;
-
-    //getting longurl from sid and token from longurl
     let longurl = await getLongUrl(user.sid);
+
+    //getting longurl from sid
     let email = longurl.split("confirmation/")[1];
     console.log("longurl",longurl)
-    console.log("token",email);
+    console.log("email",email);
 
-    response.send({longurl:longurl,email:email})
- 
+    //checking if it is valid request
+    let userfromdb= await getTempUserByEmail(email)
+    console.log(user,userfromdb);
+    if(userfromdb){
+        //Once confirmed user added to users2 collection from tempUser
+        let result = await adduser(userfromdb);
+        //delete user from tempUser
+        await deleteTempUser(email)
+        response.send(result);
+    }else{
+        response.send({message:"Some error occured. Try registering account again"})
+    }
+    
 })
+
+
 
 
 
