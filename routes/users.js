@@ -101,7 +101,7 @@ router.post("/signup", async (request, response) => {
     
 // })
 
-router.post("/confirm", async (request, response) => {
+router.post("/confirmation", async (request, response) => {
  
     console.log("/users/confirm")
 
