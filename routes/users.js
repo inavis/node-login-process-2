@@ -107,25 +107,7 @@ router.post("/confirmation", async (request, response) => {
 
     //getting sid from user url
     let user = request.body;
-    let longurl = await getLongUrl(user.sid);
-    console.log("longurl",longurl);
-
-    //getting longurl from sid
-    let email = longurl.split("confirmation/")[1];
-    console.log("email",email);
-
-    //checking if it is valid request
-    let userfromdb= await getTempUserByEmail(email)
-    console.log(user,userfromdb);
-    if(userfromdb){
-        //Once confirmed user added to users2 collection from tempUser
-        let result = await adduser(userfromdb);
-        //delete user from tempUser
-        await deleteTempUser(email)
-        response.send(result);
-    }else{
-        response.send({message:"Some error occured. Try registering account again"})
-    }
+    response.send(user)
 });
 
 router.post("/login", async (request, response) => {
