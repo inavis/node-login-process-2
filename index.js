@@ -1,6 +1,7 @@
 import express from "express"; 
 import { MongoClient } from "mongodb";
 import { usersRouter  } from "./routes/users.js";
+import { urlRouter } from "./routes/url.js";
 import cors from "cors";
 
 //to get data from .env file
@@ -25,6 +26,7 @@ app.use(express.json())
 app.use(cors())
 //routes
 app.use("/users",usersRouter);
+app.use("/url",urlRouter);
 
 
 app.get("/",(request,response)=>{

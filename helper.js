@@ -2,7 +2,8 @@ import { app, client } from "./index.js";
 import bcrypt from "bcrypt";
 import passwordValidator from 'password-validator';
 import emailvalidator from "email-validator";
-
+import shortUrl from "node-url-shortener";
+import shorten from 'simple-short';
 
 export async function getAllUsers(){
     return await client.db("practise").collection("users2").find({}).toArray();
@@ -86,4 +87,28 @@ export async function getrequestbytoken(token) {
 }
 export async function deleteRequest(token) {
     return await client.db("practise").collection("requests2").deleteOne({ "token": token });
+}
+
+
+
+//URL shortener operations
+export async function getShortUrl(longurl){
+//     shortUrl.short(longurl, function (err, url) {
+//     console.log(url);
+// });
+    var sid=shorten(longurl);
+    return sid;
+}
+
+export async function getLongUrl(sid){
+    var url=shorten(sid);
+    return(url)
+    }
+
+    export async function addUrl(newurl) {
+        return await client.db("practise").collection("urls").insertOne(newurl);
+    }
+
+export async function getAllUrl() {
+    return await client.db("practise").collection("urls").findOne({ });
 }

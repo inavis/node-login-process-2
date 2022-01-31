@@ -3,7 +3,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken"
 import { getAllUsers,genPassword ,validatePassword,validateemail,getuserbyemail,adduser,
             getAllRequests,addRequest,getrequestbyemail,getrequestbytoken,
-             updateuser,deleteRequest, addTempUser,getTempUserByEmail,deleteTempUser} from "../helper.js";
+             updateuser,deleteRequest, addTempUser,getTempUserByEmail,deleteTempUser,
+            getShortUrl,getLongUrl,addUrl} from "../helper.js";
 import { sendResetLink } from "../sendEmail.js";
 import { auth } from "../middleware/auth.js";
 
@@ -11,7 +12,7 @@ import { auth } from "../middleware/auth.js";
 const router = express.Router();
 
 
-router.get("/",auth,async(request,response)=>{
+router.get("/",async(request,response)=>{
     let result = await getAllUsers();
     response.send(result);
 })
@@ -36,15 +37,29 @@ router.post("/signup", async (request, response) => {
         }else{
             if(validatePassword(newuser.password)){
                 newuser.password = await genPassword(newuser.password) //hashing password
-                //console.log(newuser)
-                // let result = await adduser(newuser) //adding new user
-                // response.status(200).send(result);
-                let result = await addTempUser(newuser);
-                sendResetLink(newuser.email,`
-                <h3>Account confirmation email</h3>
-                <div>To reset your password, Please click <a href=http://localhost:3000/confirmation/${newuser.email}>here</a></div>
-                `);
-                response.send({message:"Kindly confirm the email.Kindly check in spam folder also"})
+
+                //checking if confirmation email already sent so that duplicate entries are avoided
+                let userfromdb= await getTempUserByEmail(newuser.email)
+                if(userfromdb){
+                    response.send({message:"Mail has been sent already.Kindly check in spam folder also"})
+                }else{
+                    let result = await addTempUser(newuser);
+
+                    //getting sid from long url
+                    const sid = await getShortUrl(`http://localhost:3000/confirmation/${newuser.email}`)
+                    console.log("sid",sid);
+
+                    //adding long and short url to collection urls 
+                    await addUrl({longurl:`http://localhost:3000/confirmation/${newuser.email}`,shorturl:`http://localhost:3000/confirmation/${sid}`});
+                    
+                     //sending confirmation email
+                    sendResetLink(newuser.email,"Account Confirmation- URL shortener website",`
+                    <h3>Account confirmation email</h3>
+                    <div>To reset your password, Please click <a href=http://localhost:3000/confirmation/${sid}>here</a></div>
+                    `);
+                    response.send({message:"Kindly confirm the email.Kindly check in spam folder also"})
+                }
+                
             }else{
                 response.status(404).send({message:"Password validation failed"})
             }
@@ -59,12 +74,24 @@ router.post("/signup", async (request, response) => {
 });
 
 router.post("/confirm",async (request,response)=>{
+
+    //getting sid from user url
     let user = request.body;
-    let userfromdb= await getTempUserByEmail(user.email)
+    let longurl = await getLongUrl(user.sid);
+
+    //getting longurl from sid
+    let email = longurl.split("confirmation/")[1];
+    console.log("longurl",longurl)
+    console.log("email",email);
+
+    //checking if it is valid request
+    let userfromdb= await getTempUserByEmail(email)
     console.log(user,userfromdb);
     if(userfromdb){
+        //Once confirmed user added to users2 collection from tempUser
         let result = await adduser(userfromdb);
-        await deleteTempUser(user.email)
+        //delete user from tempUser
+        await deleteTempUser(email)
         response.send(result);
     }else{
         response.send({message:"Some error occured. Try registering account again"})
@@ -117,10 +144,20 @@ router.post("/forgot-password",async (request,response)=>{
             token,
             email:user.email
         }
-        addRequest(newrequest);
-        sendResetLink(user.email,`
+        //adding reuqest to track it.
+        await addRequest(newrequest);
+
+        //getting sid from longurl
+        const sid = await getShortUrl(`http://localhost:3000/reset/${token}`)
+        console.log("sid",sid);
+
+        //adding longurl and shorturl to urls collection
+        await addUrl({longurl:`http://localhost:3000/reset/${token}`,shorturl:`http://localhost:3000/reset/${sid}`});
+        
+        //sending email with link to reset password
+        sendResetLink(user.email,"Password Reset-URL shortener",`
         <h3>Password Reset Instructions</h3>
-        <div>To reset your password, Please click <a href=http://localhost:3000/reset/${token}>here</a></div>
+        <div>To reset your password, Please click <a href=http://localhost:3000/reset/${sid}>here</a></div>
         <div><small>Kindly check in spam folder also.</small></div>
         `);
         }
@@ -133,17 +170,27 @@ router.post("/forgot-password",async (request,response)=>{
 
 
 router.put("/reset",async (request,response)=>{
-    //has token,password
+    
+    //getting sid from) user
     let user = request.body;
-    //console.log(user);
-    let requestfromdb = await getrequestbytoken(user.token)
-   //console.log("tocheck",requestfromdb);
 
+    //getting longurl from sid and token from longurl
+    let longurl = await getLongUrl(user.sid);
+    let token = longurl.split("reset/")[1];
+    console.log("longurl",longurl)
+    console.log("token",token);
+
+    //checking if it is valid request
+    let requestfromdb = await getrequestbytoken(token)
+   console.log("tocheck",requestfromdb);
+
+   //if valid then update password
   if(requestfromdb){
    let result = await updateuser(requestfromdb.email,await genPassword(user.password));
    //console.log(result)
+        //if password updated then delete the requests
         if(result){
-               await deleteRequest(user.token);
+               await deleteRequest(token);
             }  
    response.send(result);
 }  else{

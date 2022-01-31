@@ -2,7 +2,7 @@
 
 import nodemailer from "nodemailer";
 
-export function sendResetLink(email,content){
+export function sendResetLink(email,subject,content){
     console.log(email,content)
     var transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -15,7 +15,7 @@ export function sendResetLink(email,content){
       var mailOptions = {
         from: process.env.GMAIL,
         to: email,
-        subject:"Reset Password Instructions",
+        subject:subject,
         // text: `To reset your password, Please click on this link: http://localhost:3000/reset/${token}`,
         html:content
     };
