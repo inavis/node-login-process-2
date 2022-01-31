@@ -108,6 +108,7 @@ router.post("/confirmation", async (request, response) => {
     //getting sid from user url
     let user = request.body;
     let longurl = await getLongUrl(user.sid);
+    response.send({"longurl":longurl})
 
     //getting longurl from sid
     // let email = longurl.split("confirmation/")[1];
@@ -127,7 +128,7 @@ router.post("/confirmation", async (request, response) => {
     //     response.send({message:"Some error occured. Try registering account again"})
     // }
     
-    response.send({"longurl":longurl})
+    
 });
 
 router.post("/login", async (request, response) => {
