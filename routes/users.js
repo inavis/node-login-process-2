@@ -101,13 +101,14 @@ router.post("/signup", async (request, response) => {
     
 // })
 
-router.post("/confirmation", async (request, response) => {
+router.put("/confirmation", async (request, response) => {
  
     console.log("/users/confirm")
 
     //getting sid from user url
     let user = request.body;
     let longurl = await getLongUrl(user.sid);
+    console.log("longurl",longurl)
     response.send({longurl:longurl})
 
     //getting longurl from sid
