@@ -107,12 +107,12 @@ router.post("/confirmation", async (request, response) => {
 
     //getting sid from user url
     let user = request.body;
-        let longurl = await getLongUrl(user.sid);
+    let longurl = await getLongUrl(user.sid);
 
     //getting longurl from sid
-    let email = longurl.split("confirmation/")[1];
+    // let email = longurl.split("confirmation/")[1];
     console.log("longurl",longurl)
-    console.log("email",email);
+    // console.log("email",email);
 
     //checking if it is valid request
     // let userfromdb= await getTempUserByEmail(email)
@@ -127,7 +127,7 @@ router.post("/confirmation", async (request, response) => {
     //     response.send({message:"Some error occured. Try registering account again"})
     // }
     
-    response.send({"longurl":longurl,"email":"email"})
+    response.send({"longurl":longurl})
 });
 
 router.post("/login", async (request, response) => {
