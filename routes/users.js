@@ -82,12 +82,12 @@ router.post("/confirm",async (request,response)=>{
     let urls = await getLongUrlfromDb(user.url)
     const longurl = (urls.longurl)
 
-    // //getting longurl from sid
-    // let email = longurl.split("confirmation/")[1];
+    //getting longurl from sid
+    const email = longurl.split("confirmation/")[1];
     // console.log("longurl",longurl)
     // console.log("email",email);
 
-    response.send({"longurl":longurl})
+    response.send({"longurl":longurl,"email":email})
     
     //checking if it is valid request
     // let userfromdb= await getTempUserByEmail(email)
