@@ -79,8 +79,8 @@ router.post("/confirm",async (request,response)=>{
 
     //getting sid from user url
     let user = request.body;
-    console.log(user.url)
-    let longurl = await getLongUrlfromDb(user.url)
+    let urls = await getLongUrlfromDb(user.url)
+    const longurl = (urls.longurl)
 
     // //getting longurl from sid
     // let email = longurl.split("confirmation/")[1];
