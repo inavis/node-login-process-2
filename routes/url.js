@@ -1,5 +1,6 @@
 import express, { request, response } from "express";
 import {  getShortUrl ,getLongUrl,getAllUrl} from "../helper.js";
+import shorten from 'simple-short';
 
 const router = express.Router();
 
@@ -16,8 +17,10 @@ router.post("/shorturl",async(request,response)=>{
 })
 //from id get actual url
 router.post("/longurl",async(request,response)=>{
-    let sid  = request.body.sid;
-    let result = await getLongUrl(sid);
+    let body  = request.body;
+    // let result = await getLongUrl(sid);
+    let result = shorten(body.sid);
+    console.log(body.sid,result);
     response.send({"long-url":result});
 })
 
