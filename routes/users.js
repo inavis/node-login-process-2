@@ -155,7 +155,7 @@ router.post("/forgot-password",async (request,response)=>{
         //console.log(requestfromdb);
 
         if(requestfromdb){
-            sendResetLink(requestfromdb.email,requestfromdb.token);
+            response.send({message:"Email already sent. Kindly check in spam folder also"})
         }
         else{
             const token = jwt.sign({id:userfromdb._id},process.env.SECRET_KEY);
