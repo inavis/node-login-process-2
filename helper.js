@@ -115,5 +115,5 @@ export async function getLongUrl(sid){
 
 
 export async function getAllUrl() {
-    return await client.db("practise").collection("urls").find({ });
+    return await client.db("practise").collection("urls").find({}).toArray();
 }
