@@ -1,10 +1,12 @@
 import express, { request, response } from "express";
 import {  getShortUrl ,getLongUrl,getAllUrl} from "../helper.js";
 import shorten from 'simple-short';
+import { auth } from "../middleware/auth.js";
 
 const router = express.Router();
 
-router.get("/",async(request,response)=>{
+//get all urls if we have token
+router.get("/",auth,async(request,response)=>{
     let result = await getAllUrl();
     response.send(result);
 })
