@@ -171,8 +171,17 @@ router.post("/forgot-password",async (request,response)=>{
         const sid = await getShortUrl(`http://localhost:3000/reset/${token}`)
         console.log("sid",sid);
 
+        // new Date object
+        const currentdate = new Date(); 
+        const datetime = (currentdate.getDate() + "-"
+        + (currentdate.getMonth()+1)  + "-" 
+        + currentdate.getFullYear() + "-"  
+        + currentdate.getHours() + ":"  
+        + currentdate.getMinutes() + ":" 
+        + currentdate.getSeconds()); 
+
         //adding longurl and shorturl to urls collection
-        await addUrl({longurl:`http://localhost:3000/reset/${token}`,shorturl:`http://localhost:3000/reset/${sid}`});
+        await addUrl({"date":datetime,longurl:`http://localhost:3000/reset/${token}`,shorturl:`http://localhost:3000/reset/${sid}`});
         
         //sending email with link to reset password
         sendResetLink(user.email,"Password Reset-URL shortener",`
