@@ -96,7 +96,13 @@ router.post("/confirm",async (request,response)=>{
         await deleteTempUser(email)
         response.send(result);
     }else{
-        response.send({message:"Some error occured. Try registering account again"})
+        const confirmuser = await getuserbyemail(email);
+        if(confirmuser){
+            response.send({message:"Already existing user so kindly try to Login"})
+        }else{
+            response.send({message:"Some error occured. Try registering account again"})
+        }
+        
     }
     
 })
