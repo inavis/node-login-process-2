@@ -79,14 +79,13 @@ router.post("/confirm",async (request,response)=>{
     let user = request.body;
     let urls = await getLongUrlfromDb(user.url)
     const longurl = (urls.longurl)
-
-    //getting longurl from sid
+    //getting email
     const email = longurl.split("confirmation/")[1];
     console.log("longurl",longurl)
     console.log("email",email);
 
     
-    // checking if it is valid request
+    // checking if it is valid temp user
     let userfromdb= await getTempUserByEmail(email)
     console.log(user,userfromdb);
     if(userfromdb){
@@ -96,6 +95,7 @@ router.post("/confirm",async (request,response)=>{
         await deleteTempUser(email)
         response.send(result);
     }else{
+        //checking is user is already a confirmed user
         const confirmuser = await getuserbyemail(email);
         if(confirmuser){
             response.send({message:"Already existing user so kindly try to Login"})
