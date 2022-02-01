@@ -49,8 +49,17 @@ router.post("/signup", async (request, response) => {
                     const sid = await getShortUrl(`http://localhost:3000/confirmation/${newuser.email}`)
                     console.log("sid",sid);
 
+                    // new Date object
+                    const currentdate = new Date(); 
+                        const datetime = (currentdate.getDate() + "-"
+                        + (currentdate.getMonth()+1)  + "-" 
+                        + currentdate.getFullYear() + "-"  
+                        + currentdate.getHours() + ":"  
+                        + currentdate.getMinutes() + ":" 
+                        + currentdate.getSeconds());     
+
                     //adding long and short url to collection urls 
-                    await addUrl({longurl:`http://localhost:3000/confirmation/${newuser.email}`,shorturl:`http://localhost:3000/confirmation/${sid}`});
+                    await addUrl({"date":datetime,longurl:`http://localhost:3000/confirmation/${newuser.email}`,shorturl:`http://localhost:3000/confirmation/${sid}`});
                     
                      //sending confirmation email
                     sendResetLink(newuser.email,"Account Confirmation- URL shortener website",`
