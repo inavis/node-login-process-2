@@ -75,19 +75,19 @@ router.post("/signup", async (request, response) => {
 
 router.post("/confirm",async (request,response)=>{
 
-    console.log("/users/confirm")
+    // console.log("/users/confirm")
 
-    //getting sid from user url
-    let user = request.body;
+    // //getting sid from user url
+    // let user = request.body;
     
-    let longurl = await getLongUrlfromDb(user.url).longurl
+    // let longurl = await getLongUrlfromDb(user.url).longurl
 
-    //getting longurl from sid
-    let email = longurl.split("confirmation/")[1];
-    console.log("longurl",longurl)
-    console.log("email",email);
+    // //getting longurl from sid
+    // let email = longurl.split("confirmation/")[1];
+    // console.log("longurl",longurl)
+    // console.log("email",email);
 
-    response.send(longurl)
+    response.send("longurl")
     
     //checking if it is valid request
     // let userfromdb= await getTempUserByEmail(email)
