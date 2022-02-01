@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken"
 import { getAllUsers,genPassword ,validatePassword,validateemail,getuserbyemail,adduser,
             getAllRequests,addRequest,getrequestbyemail,getrequestbytoken,
              updateuser,deleteRequest, addTempUser,getTempUserByEmail,deleteTempUser,
-            getShortUrl,getLongUrl,addUrl} from "../helper.js";
+            getShortUrl,getLongUrl,addUrl,getLongUrlfromDb} from "../helper.js";
 import { sendResetLink } from "../sendEmail.js";
 import { auth } from "../middleware/auth.js";
 
@@ -79,25 +79,28 @@ router.post("/confirm",async (request,response)=>{
 
     //getting sid from user url
     let user = request.body;
-    let longurl = await getLongUrl(user.sid);
+    
+    let longurl = await getLongUrlfromDb(user.url).longurl
 
     //getting longurl from sid
     let email = longurl.split("confirmation/")[1];
     console.log("longurl",longurl)
     console.log("email",email);
 
+    response.send(longurl)
+    
     //checking if it is valid request
-    let userfromdb= await getTempUserByEmail(email)
-    console.log(user,userfromdb);
-    if(userfromdb){
-        //Once confirmed user added to users2 collection from tempUser
-        let result = await adduser(userfromdb);
-        //delete user from tempUser
-        await deleteTempUser(email)
-        response.send(result);
-    }else{
-        response.send({message:"Some error occured. Try registering account again"})
-    }
+    // let userfromdb= await getTempUserByEmail(email)
+    // console.log(user,userfromdb);
+    // if(userfromdb){
+    //     //Once confirmed user added to users2 collection from tempUser
+    //     let result = await adduser(userfromdb);
+    //     //delete user from tempUser
+    //     await deleteTempUser(email)
+    //     response.send(result);
+    // }else{
+    //     response.send({message:"Some error occured. Try registering account again"})
+    // }
     
 })
 

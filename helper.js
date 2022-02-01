@@ -109,6 +109,11 @@ export async function getLongUrl(sid){
         return await client.db("practise").collection("urls").insertOne(newurl);
     }
 
+    export async function getLongUrlfromDb(url) {
+        return await client.db("practise").collection("urls").findOne({"shorturl":url});
+    }
+
+
 export async function getAllUrl() {
     return await client.db("practise").collection("urls").findOne({ });
 }
