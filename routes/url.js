@@ -1,5 +1,5 @@
 import express, { request, response } from "express";
-import {  getShortUrl ,getLongUrl,getAllUrl} from "../helper.js";
+import {  getShortUrl ,getLongUrl,getAllUrl,addUrl} from "../helper.js";
 import shorten from 'simple-short';
 import { auth } from "../middleware/auth.js";
 
@@ -26,6 +26,10 @@ router.post("/longurl",async(request,response)=>{
     response.send({"long-url":result});
 })
 
-
+router.post("/add",async(request,response)=>{
+    let urldata = request.body;
+    let result = await addUrl(urldata)
+    response.send(result);
+})
 
 export const urlRouter = router;
