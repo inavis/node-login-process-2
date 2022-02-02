@@ -15,7 +15,7 @@ router.get("/",auth,async(request,response)=>{
 router.post("/shorturl",async(request,response)=>{
     let longurl  = request.body.longurl;
     let result = await getShortUrl(longurl);
-    response.send({"short-url":result});
+    response.send({"short_url":result});
 })
 //from id get actual url
 router.post("/longurl",async(request,response)=>{
