@@ -51,8 +51,8 @@ router.post("/signup", async (request, response) => {
 
                     // new Date object
                     const currentdate = new Date(); 
-                        const datetime = (currentdate.getDate() + "/"
-                        + (currentdate.getMonth()+1)  + "/" 
+                        const datetime = ((currentdate.getMonth()+1) + "/"
+                        + currentdate.getDate()  + "/" 
                         + currentdate.getFullYear())
                         // + " "  
                         // + currentdate.getHours() + ":"  
@@ -174,8 +174,8 @@ router.post("/forgot-password",async (request,response)=>{
 
         // new Date object
         const currentdate = new Date(); 
-        const datetime = (currentdate.getDate() + "/"
-        + (currentdate.getMonth()+1)  + "/" 
+        const datetime = ( (currentdate.getMonth()+1)  + "/"
+        + currentdate.getDate() + "/" 
         + currentdate.getFullYear() )
         // + " "  
         // + currentdate.getHours() + ":"  
