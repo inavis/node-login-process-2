@@ -212,24 +212,23 @@ router.put("/reset",async (request,response)=>{
     console.log("longurl",longurl)
     console.log("token",token);
 
-    response.send({"longurl":longurl,"token":token})
 
     //checking if it is valid request
-//     let requestfromdb = await getrequestbytoken(token)
-//    console.log("tocheck",requestfromdb);
+    let requestfromdb = await getrequestbytoken(token)
+   console.log("tocheck",requestfromdb);
 
-//    //if valid then update password
-//   if(requestfromdb){
-//    let result = await updateuser(requestfromdb.email,await genPassword(user.password));
-//    //console.log(result)
-//         //if password updated then delete the requests
-//         if(result){
-//                await deleteRequest(token);
-//             }  
-//    response.send(result);
-// }  else{
-//       response.status(404).send({message:"Invalid request"})
-//   }
+   //if valid then update password
+  if(requestfromdb){
+   let result = await updateuser(requestfromdb.email,await genPassword(user.password));
+   //console.log(result)
+        //if password updated then delete the requests
+        if(result){
+               await deleteRequest(token);
+            }  
+   response.send(result);
+}  else{
+      response.status(404).send({message:"Invalid request"})
+  }
 })
 
 export const usersRouter = router;
