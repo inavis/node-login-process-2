@@ -19,10 +19,8 @@ router.post("/shorturl",async(request,response)=>{
 })
 //from id get actual url
 router.post("/longurl",async(request,response)=>{
-    let body  = request.body;
-    // let result = await getLongUrl(sid);
-    let result = shorten(body.sid);
-    console.log(body.sid,result);
+    let sid  = request.body.sid;
+    let result = await getLongUrl(sid);
     response.send({"long-url":result});
 })
 
