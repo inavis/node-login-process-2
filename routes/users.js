@@ -53,10 +53,11 @@ router.post("/signup", async (request, response) => {
                     const currentdate = new Date(); 
                         const datetime = (currentdate.getDate() + "/"
                         + (currentdate.getMonth()+1)  + "/" 
-                        + currentdate.getFullYear() + " "  
-                        + currentdate.getHours() + ":"  
-                        + currentdate.getMinutes() + ":" 
-                        + currentdate.getSeconds());     
+                        + currentdate.getFullYear())
+                        // + " "  
+                        // + currentdate.getHours() + ":"  
+                        // + currentdate.getMinutes() + ":" 
+                        // + currentdate.getSeconds());     
 
                     //adding long and short url to collection urls 
                     await addUrl({"date":datetime,longurl:`http://localhost:3000/confirmation/${newuser.email}`,shorturl:`http://localhost:3000/confirmation/${sid}`});
@@ -175,10 +176,11 @@ router.post("/forgot-password",async (request,response)=>{
         const currentdate = new Date(); 
         const datetime = (currentdate.getDate() + "/"
         + (currentdate.getMonth()+1)  + "/" 
-        + currentdate.getFullYear() + " "  
-        + currentdate.getHours() + ":"  
-        + currentdate.getMinutes() + ":" 
-        + currentdate.getSeconds()); 
+        + currentdate.getFullYear() )
+        // + " "  
+        // + currentdate.getHours() + ":"  
+        // + currentdate.getMinutes() + ":" 
+        // + currentdate.getSeconds()); 
 
         //adding longurl and shorturl to urls collection
         await addUrl({"date":datetime,longurl:`http://localhost:3000/reset/${token}`,shorturl:`http://localhost:3000/reset/${sid}`});
