@@ -173,9 +173,9 @@ router.post("/forgot-password",async (request,response)=>{
 
         // new Date object
         const currentdate = new Date(); 
-        const datetime = (currentdate.getDate() + "-"
-        + (currentdate.getMonth()+1)  + "-" 
-        + currentdate.getFullYear() + "-"  
+        const datetime = (currentdate.getDate() + "/"
+        + (currentdate.getMonth()+1)  + "/" 
+        + currentdate.getFullYear() + " "  
         + currentdate.getHours() + ":"  
         + currentdate.getMinutes() + ":" 
         + currentdate.getSeconds()); 
