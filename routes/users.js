@@ -200,7 +200,7 @@ router.post("/forgot-password",async (request,response)=>{
 })
 
 
-router.post("/reset",async (request,response)=>{
+router.put("/reset",async (request,response)=>{
     
     //getting sid from) user
     let user = request.body;
