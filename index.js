@@ -23,11 +23,12 @@ export const client = await createConnection();
 
 //middleware
 app.use(express.json())
-app.use(cors())
+
 //routes
 app.use("/users",usersRouter);
 app.use("/url",urlRouter);
 
+app.use(cors())
 
 app.get("/",(request,response)=>{
     response.send("Hello World");
