@@ -21,7 +21,7 @@ router.post("/shorturl",async(request,response)=>{
 router.post("/longurl",async(request,response)=>{
     let sid  = request.body.sid;
     let result = await getLongUrlfromDb(sid);
-    response.send({"long-url":result});
+    response.send({"long_url":result});
 })
 
 router.post("/add",async(request,response)=>{
