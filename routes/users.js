@@ -60,7 +60,7 @@ router.post("/signup", async (request, response) => {
                         // + currentdate.getSeconds());     
 
                     //adding long and short url to collection urls 
-                    await addUrl({"date":datetime,longurl:`http://localhost:3000/confirmation/${newuser.email}`,shorturl:`http://localhost:3000/confirmation/${sid}`});
+                    await addUrl({"date":datetime,longurl:`https://url-shortener-1.netlify.app/confirmation/${newuser.email}`,shorturl:`http://localhost:3000/confirmation/${sid}`});
                     
                      //sending confirmation email
                     sendResetLink(newuser.email,"Account Confirmation- URL shortener website",`
@@ -188,7 +188,7 @@ router.post("/forgot-password",async (request,response)=>{
         //sending email with link to reset password
         sendResetLink(user.email,"Password Reset-URL shortener",`
         <h3>Password Reset Instructions</h3>
-        <div>To reset your password, Please click <a href=http://localhost:3000/reset/${sid}>here</a></div>
+        <div>To reset your password, Please click <a href=https://url-shortener-1.netlify.app/reset/${sid}>here</a></div>
         <div><small>Kindly check in spam folder also.</small></div>
         `);
         }
