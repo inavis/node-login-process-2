@@ -205,7 +205,7 @@ router.put("/reset",async (request,response)=>{
     
     //getting sid from) user
     let user = request.body;
-    response.send({"user":user})
+    response.send({"user":user,message:"try1"})
 
     //getting longurl from sid and token from longurl
 //     let urls = await getLongUrlfromDb(user.url)
