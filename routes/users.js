@@ -208,12 +208,12 @@ router.put("/reset",async (request,response)=>{
 
     //getting longurl from sid and token from longurl
     let urls = await getLongUrlfromDb(user.url)
-    const longurl = (urls.longurl)
-    let token = longurl.split("reset/")[1];
-    console.log("longurl",longurl)
-    console.log("token",token);
+    response.send({message:urls})
 
-    response.send({"token":longurl,message:urls})
+    // const longurl = (urls.longurl)
+    // let token = longurl.split("reset/")[1];
+    // console.log("longurl",longurl)
+    // console.log("token",token);
 
 
 //     //checking if it is valid request
