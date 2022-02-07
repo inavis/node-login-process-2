@@ -46,7 +46,7 @@ router.post("/signup", async (request, response) => {
                     let result = await addTempUser(newuser);
 
                     //getting sid from long url
-                    const sid = await getShortUrl(`https://url-shortener-1.netlify.app//confirmation/${newuser.email}`)
+                    const sid = await getShortUrl(`https://url-shortener-1.netlify.app/confirmation/${newuser.email}`)
                     console.log("sid",sid);
 
                     // new Date object
@@ -170,7 +170,7 @@ router.post("/forgot-password",async (request,response)=>{
         await addRequest(newrequest);
 
         //getting sid from longurl
-        const sid = await getShortUrl(`https://url-shortener-1.netlify.app//reset/${token}`)
+        const sid = await getShortUrl(`https://url-shortener-1.netlify.app/reset/${token}`)
         console.log("sid",sid);
 
         // new Date object
@@ -184,7 +184,7 @@ router.post("/forgot-password",async (request,response)=>{
         // + currentdate.getSeconds()); 
 
         //adding longurl and shorturl to urls collection
-        await addUrl({"date":datetime,longurl:`https://url-shortener-1.netlify.app//reset/${token}`,shorturl:`https://url-shortener-1.netlify.app//reset/${sid}`});
+        await addUrl({"date":datetime,longurl:`https://url-shortener-1.netlify.app/reset/${token}`,shorturl:`https://url-shortener-1.netlify.app/reset/${sid}`});
         
         //sending email with link to reset password
         sendResetLink(user.email,"Password Reset-URL shortener",`
