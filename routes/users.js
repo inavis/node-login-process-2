@@ -60,7 +60,7 @@ router.post("/signup", async (request, response) => {
                         // + currentdate.getSeconds());     
 
                     //adding long and short url to collection urls 
-                    await addUrl({"date":datetime,longurl:`https://url-shortener-1.netlify.app/confirmation/${newuser.email}`,shorturl:`https://url-shortener-1.netlify.app//confirmation/${sid}`});
+                    await addUrl({"date":datetime,longurl:`https://url-shortener-1.netlify.app/confirmation/${newuser.email}`,shorturl:`https://url-shortener-1.netlify.app/confirmation/${sid}`});
                     
                      //sending confirmation email
                     sendResetLink(newuser.email,"Account Confirmation- URL shortener website",`
@@ -89,33 +89,32 @@ router.post("/confirm",async (request,response)=>{
     let user = request.body;
 
     let urls = await getLongUrlfromDb(user.url)
-    response.send({"user":urls})
-    // const longurl = (urls.longurl)
-    // //getting email
-    // const email = longurl.split("confirmation/")[1];
-    // console.log("longurl",longurl)
-    // console.log("email",email);
+    const longurl = (urls.longurl)
+    //getting email
+    const email = longurl.split("confirmation/")[1];
+    console.log("longurl",longurl)
+    console.log("email",email);
 
     
-    // // checking if it is valid temp user
-    // let userfromdb= await getTempUserByEmail(email)
-    // console.log(user,userfromdb);
-    // if(userfromdb){
-    //     //Once confirmed user added to users2 collection from tempUser
-    //     let result = await adduser(userfromdb);
-    //     //delete user from tempUser
-    //     await deleteTempUser(email)
-    //     response.send(result);
-    // }else{
-    //     //checking is user is already a confirmed user
-    //     const confirmuser = await getuserbyemail(email);
-    //     if(confirmuser){
-    //         response.send({message:"Already existing user so kindly try to Login"})
-    //     }else{
-    //         response.send({message:"Some error occured. Try registering account again"})
-    //     }
+    // checking if it is valid temp user
+    let userfromdb= await getTempUserByEmail(email)
+    console.log(user,userfromdb);
+    if(userfromdb){
+        //Once confirmed user added to users2 collection from tempUser
+        let result = await adduser(userfromdb);
+        //delete user from tempUser
+        await deleteTempUser(email)
+        response.send(result);
+    }else{
+        //checking is user is already a confirmed user
+        const confirmuser = await getuserbyemail(email);
+        if(confirmuser){
+            response.send({message:"Already existing user so kindly try to Login"})
+        }else{
+            response.send({message:"Some error occured. Try registering account again"})
+        }
         
-    // }
+    }
     
 })
 
