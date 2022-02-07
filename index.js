@@ -22,20 +22,14 @@ async function createConnection(){
 export const client = await createConnection();
 
 //middleware
+app.use(cors())
 app.use(express.json())
 
 //routes
 app.use("/users",usersRouter);
 app.use("/url",urlRouter);
 
-// app.use(cors())
-const corsOptions ={
-    origin:'*', 
-    credentials:true,            //access-control-allow-credentials:true
-    optionSuccessStatus:200,
- }
- 
- app.use(cors(corsOptions)) // Use this after the variable declaration
+
 
 app.get("/",(request,response)=>{
     response.send("Hello World");
