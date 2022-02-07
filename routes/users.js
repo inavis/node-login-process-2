@@ -88,8 +88,8 @@ router.post("/confirm",async (request,response)=>{
     //getting long url from url collection
     let user = request.body;
 
-    response.send({"user":user})
-    // let urls = await getLongUrlfromDb(user.url)
+    let urls = await getLongUrlfromDb(user.url)
+    response.send({"user":urls})
     // const longurl = (urls.longurl)
     // //getting email
     // const email = longurl.split("confirmation/")[1];
