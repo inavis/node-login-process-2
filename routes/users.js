@@ -205,31 +205,32 @@ router.put("/reset",async (request,response)=>{
     
     //getting sid from) user
     let user = request.body;
+    response.send({"user":user})
 
     //getting longurl from sid and token from longurl
-    let urls = await getLongUrlfromDb(user.url)
-    const longurl = (urls.longurl)
-    let token = longurl.split("reset/")[1];
-    console.log("longurl",longurl)
-    console.log("token",token);
+//     let urls = await getLongUrlfromDb(user.url)
+//     const longurl = (urls.longurl)
+//     let token = longurl.split("reset/")[1];
+//     console.log("longurl",longurl)
+//     console.log("token",token);
 
 
-    //checking if it is valid request
-    let requestfromdb = await getrequestbytoken(token)
-   console.log("tocheck",requestfromdb);
+//     //checking if it is valid request
+//     let requestfromdb = await getrequestbytoken(token)
+//    console.log("tocheck",requestfromdb);
 
-   //if valid then update password
-  if(requestfromdb){
-   let result = await updateuser(requestfromdb.email,await genPassword(user.password));
-   //console.log(result)
-        //if password updated then delete the requests
-        if(result){
-               await deleteRequest(token);
-            }  
-   response.send(result);
-}  else{
-      response.status(404).send({message:"Invalid request"})
-  }
+//    //if valid then update password
+//   if(requestfromdb){
+//    let result = await updateuser(requestfromdb.email,await genPassword(user.password));
+//    //console.log(result)
+//         //if password updated then delete the requests
+//         if(result){
+//                await deleteRequest(token);
+//             }  
+//    response.send(result);
+// }  else{
+//       response.status(404).send({message:"Invalid request"})
+//   }
 })
 
 export const usersRouter = router;
