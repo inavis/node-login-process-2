@@ -87,33 +87,35 @@ router.post("/confirm",async (request,response)=>{
 
     //getting long url from url collection
     let user = request.body;
-    let urls = await getLongUrlfromDb(user.url)
-    const longurl = (urls.longurl)
-    //getting email
-    const email = longurl.split("confirmation/")[1];
-    console.log("longurl",longurl)
-    console.log("email",email);
+
+    response.send({"user":user})
+    // let urls = await getLongUrlfromDb(user.url)
+    // const longurl = (urls.longurl)
+    // //getting email
+    // const email = longurl.split("confirmation/")[1];
+    // console.log("longurl",longurl)
+    // console.log("email",email);
 
     
-    // checking if it is valid temp user
-    let userfromdb= await getTempUserByEmail(email)
-    console.log(user,userfromdb);
-    if(userfromdb){
-        //Once confirmed user added to users2 collection from tempUser
-        let result = await adduser(userfromdb);
-        //delete user from tempUser
-        await deleteTempUser(email)
-        response.send(result);
-    }else{
-        //checking is user is already a confirmed user
-        const confirmuser = await getuserbyemail(email);
-        if(confirmuser){
-            response.send({message:"Already existing user so kindly try to Login"})
-        }else{
-            response.send({message:"Some error occured. Try registering account again"})
-        }
+    // // checking if it is valid temp user
+    // let userfromdb= await getTempUserByEmail(email)
+    // console.log(user,userfromdb);
+    // if(userfromdb){
+    //     //Once confirmed user added to users2 collection from tempUser
+    //     let result = await adduser(userfromdb);
+    //     //delete user from tempUser
+    //     await deleteTempUser(email)
+    //     response.send(result);
+    // }else{
+    //     //checking is user is already a confirmed user
+    //     const confirmuser = await getuserbyemail(email);
+    //     if(confirmuser){
+    //         response.send({message:"Already existing user so kindly try to Login"})
+    //     }else{
+    //         response.send({message:"Some error occured. Try registering account again"})
+    //     }
         
-    }
+    // }
     
 })
 
