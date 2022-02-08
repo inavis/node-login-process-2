@@ -22,8 +22,8 @@ async function createConnection(){
 export const client = await createConnection();
 
 //middleware
-// app.use(cors())
-app.use(cors({ origin: 'https://url-shortener-1.netlify.app/' }));
+app.use(cors())
+app.options('*', cors());
 app.use(express.json())
 
 //routes
