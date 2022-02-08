@@ -22,7 +22,8 @@ async function createConnection(){
 export const client = await createConnection();
 
 //middleware
-app.use(cors())
+// app.use(cors())
+app.use(cors({ origin: true, credentials: true }));
 app.use(express.json())
 
 //routes
