@@ -23,7 +23,6 @@ export const client = await createConnection();
 
 //middleware
 app.use(cors())
-app.options('*', cors());
 app.use(express.json())
 
 //routes
